@@ -1,0 +1,64 @@
+package com.company;
+
+import java.util.*;
+public class Main {
+    static int role;
+    static int select;
+
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("select, [1] sign up, [2] sign in");
+        select = scanner.nextInt();
+
+        if(select == 1)
+        {
+            SignUp();
+        }
+        else if(select == 2)
+        {
+            SignIn();
+        }
+
+
+    }
+    public static void SignUp()
+    {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please select your registration role [1] Lecturer,[2] Student.");
+        role = scanner.nextInt();
+
+        if(role == 1)
+        {
+            Lecturer obj = new Lecturer();
+            obj.LecturerSignUp();
+        }
+        else if(role == 2)
+        {
+            Student obj = new Student();
+            obj.StudentSignUp();
+        }
+
+    }
+    public static void SignIn()
+    {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please select your registration role [1] Lecturer,[2] Student.");
+        role = scanner.nextInt();
+
+        if(role == 1)
+        {
+            Lecturer obj2 = new Lecturer();
+            obj2.LecturerSignIn();
+        }
+        else if(role == 2)
+        {
+            Student obj2 = new Student();
+            obj2.StudentSignIn();
+        }
+
+    }
+
+}
+

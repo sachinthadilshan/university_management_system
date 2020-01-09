@@ -1,0 +1,82 @@
+package com.company;
+
+import java.util.Scanner;
+
+class Student {
+    String name;
+    String username;
+    int password;
+    int age;
+    String course;
+    Scanner scanner = new Scanner(System.in);
+
+    public Student()
+    {
+        DataBaseConection dbc_object = new DataBaseConection();
+    }
+
+    public void StudentSignUp()
+    {
+        System.out.println("Student Registration form\n");
+        System.out.println("Name :");
+        name = scanner.next();
+
+        System.out.println("User Name :");
+        username = scanner.next();
+
+        System.out.println("Password :");
+        password =  scanner.nextInt();
+
+        System.out.println("Age :");
+        age = scanner.nextInt();
+
+        DataBaseConection dbc_obj = new DataBaseConection();
+        System.out.println("Select the courses :");
+
+        dbc_obj.CoursePrint();
+        course = scanner.next();
+
+        String[] arrOfStr = course.split(",");
+
+        for(String a : arrOfStr)
+            dbc_obj.Insert("students", name, username, password, age,Integer.parseInt(a));
+
+        System.out.println("You have succesfully registered for following courses :");
+        for (String b: arrOfStr)
+            dbc_obj.SelectedCourse(Integer.parseInt(b));
+
+    }
+    // next
+    public int StudentSignIn()
+    {
+        System.out.println("Student Login form\n");
+
+        System.out.println("User name :");
+        username = scanner.next();
+
+        System.out.println("Password :");
+        password = scanner.nextInt();
+
+        System.out.println("Hi "+username);
+        System.out.println("You have successfully registered for following courses :");
+        DataBaseConection dbc_object2 = new DataBaseConection();
+
+        dbc_object2.RegisteredCourse("students",username,password);
+
+        System.out.println("Please select your option,\n[1] exit\n[2] Register new course");
+        int choise = scanner.nextInt();
+
+        if(choise == 1)
+        {
+            System.out.println("Bye !");
+            return 0;
+        }
+        else if(choise == 2)
+        {
+            Student obj3 = new Student();
+            obj3.StudentSignUp();
+        }
+        return 0;
+    }
+
+}

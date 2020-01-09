@@ -1,0 +1,187 @@
+package com.company;
+import java.sql.*;
+
+class DataBaseConection {
+    //String query;
+    String printdata="";
+    Statement st;
+    Connection con;
+    ResultSet rs;
+
+
+    public DataBaseConection()
+    {
+        try
+        {
+            con = DriverManager.getConnection("jdbc:mysql://localhost/university_management_system","root","");
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println(e.getSQLState());
+        }
+    }
+    public void Insert(String state, String name, String uname, int passwd, int age, int couse)
+    {
+        String query = String.format("INSERT INTO %s (NAME,USER_NAME,PASSWORD,AGE,COURSE_NUMBER) VALUES('%s','%s',%d,%d,%d)",state,name,uname,passwd,age,couse);
+        //System.out.println(query);
+        try
+        {
+            st =con.createStatement();
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e.getSQLState());
+        }
+        try {
+            int update = st.executeUpdate(query);
+
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e.getSQLState());
+        }
+
+
+    }
+
+    public void CoursePrint()
+    {
+        try
+        {
+            st = con.createStatement();
+        }
+        catch (Exception e)
+        {
+            System.out.println("erro 1");
+        }
+        try {
+            rs = st.executeQuery("SELECT * FROM courses");
+        }
+        catch (Exception e1)
+        {
+            System.out.println("erro 2");
+        }
+
+
+        while (true)
+        {
+            try {
+                if (!rs.next()) break;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                printdata = "[" + rs.getInt(1) + "]"+"  "+rs.getString(2);
+                System.out.println(printdata);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            st.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void SelectedCourse(int number)
+    {
+        try
+        {
+            st = con.createStatement();
+        }
+        catch (Exception e)
+        {
+            System.out.println("erro 1");
+        }
+        try {
+
+                String q = String.format("SELECT * FROM courses WHERE cours_id = %d",number);
+                rs = st.executeQuery(q);
+        }
+        catch (Exception e1)
+        {
+            System.out.println("erro 2");
+        }
+
+        while (true)
+        {
+            try {
+                if (!rs.next()) break;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                printdata = "[" + rs.getInt(1) + "]"+"  "+rs.getString(2);
+                System.out.println(printdata);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            st.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void RegisteredCourse(String state,String name,int number)
+    {
+        try
+        {
+            st = con.createStatement();
+        }
+        catch (Exception e)
+        {
+            System.out.println("erro 1");
+        }
+        try {
+
+            String q = String.format("SELECT * FROM courses,%s WHERE USER_NAME='%s' AND PASSWORD = %d AND COURSE_NUMBER=cours_id",state,name,number);
+            rs = st.executeQuery(q);
+        }
+        catch (Exception e1)
+        {
+            System.out.println("erro 2");
+        }
+
+        while (true)
+        {
+            try {
+                if (!rs.next()) break;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                printdata = "[" + rs.getInt(1) + "]"+"  "+rs.getString(2);
+                System.out.println(printdata);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            st.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+}
